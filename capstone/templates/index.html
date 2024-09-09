@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBPE Tokenizer</title>
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>IBPE Tokenizer</h1>
+    </header>
+    
+    <section id="options">
+        <h2>Choose tokenizer</h2>
+        <label>
+            <input type="radio" name="tokenizer" value="default" checked> Default
+        </label>
+        <label>
+            <input type="radio" name="tokenizer" value="train"> Train
+        </label>
+        <label>
+            <input type="radio" name="tokenizer" value="saved"> Saved
+        </label>
+        <select id="saved-options">
+            <option value="tokenize1">Tokenize 1</option>
+            <option value="tokenize2">Tokenize 2</option>
+            <option value="tokenize3">Tokenize 3</option>
+        </select>
+    </section>
+    
+    <section id="main-interface">
+        <h3>Enter text to tokenize</h3>
+        <textarea id="input-text" maxlength="200" placeholder="Enter text here..."></textarea>
+        <div id="actions">
+            <button id="tokenize-btn">Tokenize</button>
+            <button id="download-btn">Download</button>
+            <!-- "Upload Text File" button with the same height as others -->
+            <label for="upload-text-file" class="upload-label">
+                Upload Text File
+                <input type="file" id="upload-text-file" accept=".txt">
+            </label>
+            <button id="remove-file-btn">Remove File</button>
+        </div>
+        <h3>Output</h3>
+        <textarea id="output-text" readonly></textarea>
+        <p id="status-message"></p> <!-- Message area for success/error -->
+    </section>
+    
+    <section id="training-interface" style="display: none;">
+        <h2>Training</h2>
+        <label for="upload-corpus" class="upload-label">
+            <input type="file" id="upload-corpus" accept=".txt">
+            Upload training corpus
+        </label>
+        <div id="training-actions">
+            <button id="train-btn">Train</button>
+            <button id="save-btn">Save</button>
+            <button id="back-btn">Back</button>
+        </div>
+    </section>
+    
+    <!-- Link to external JavaScript -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
