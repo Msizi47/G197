@@ -79,7 +79,7 @@ button:hover {
     display: inline-block;
     background-color: #1E90FF;
     color: white;
-    padding: 10px 15px;
+    padding: 10px 15px;   /* commenting */
     border-radius: 5px;
     cursor: pointer;
     height: 26px;
