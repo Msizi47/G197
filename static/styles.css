@@ -77,7 +77,7 @@ button:hover {
 
 .upload-label {
     display: inline-block;
-    background-color: #1E90FF;
+    background-color: #1E90FF;    /* commenting */
     color: white;
     padding: 10px 15px;   /* commenting */
     border-radius: 5px;
