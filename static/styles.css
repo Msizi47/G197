@@ -85,7 +85,7 @@ button:hover {
     height: 26px;     /* commenting */
 }
 
-.upload-label input {
+.upload-label input {   /* commenting */
     display: none; /* Hide the file input */
 }
 
