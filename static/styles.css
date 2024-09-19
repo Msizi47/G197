@@ -75,6 +75,6 @@ button:hover {
 }
 
 #status-message {
-    margin-top: 15px;
+    margin-top: 15px;   /* comment */
     font-size: 16px;
 }
