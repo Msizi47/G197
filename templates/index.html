@@ -4,33 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IBPE Tokenizer</title>
-    <!-- Link to external CSS -->
+    <!-- Link to external CSS for styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <!-- Header section with title -->
     <header>
         <h1>IBPE Tokenizer</h1>
     </header>
     
+    <!-- Main interface section for text input and actions -->
     <section id="main-interface">
         <h3>Enter text to tokenize</h3>
-        <textarea id="input-text" maxlength="200" placeholder="Enter text here..."></textarea>
+        <!-- Textarea for user input; no maxlength, allowing unlimited input -->
+        <textarea id="input-text" placeholder="Enter text here..."></textarea>
+
+        <!-- Action buttons: tokenize, download, upload, remove file, and help -->
         <div id="actions">
-            <button id="tokenize-btn">Tokenize</button>
-            <button id="download-btn">Download</button>
-            <!-- "Upload Text File" button with the same height as others -->
-            <label for="upload-text-file" class="upload-label">
+            <button id="tokenize-btn">Tokenize</button> <!-- Tokenize the input text -->
+            <button id="download-btn">Download</button> <!-- Download the tokenized text -->
+            <label for="upload-text-file" class="upload-label"> <!-- Upload a text file -->
                 Upload Text File
                 <input type="file" id="upload-text-file" accept=".txt">
             </label>
-            <button id="remove-file-btn">Remove File</button>
+            <button id="remove-file-btn">Remove File</button> <!-- Remove uploaded file -->
+            <button id="help-btn">Help</button> <!-- Display help modal -->
         </div>
+
+        <!-- Output section to display tokenized text -->
         <h3>Output</h3>
-        <textarea id="output-text" readonly></textarea>
-        <p id="status-message"></p> <!-- Message area for success/error -->
+        <textarea id="output-text" readonly></textarea> <!-- Read-only output area -->
+        <p id="status-message"></p> <!-- Message area for success/error notifications -->
     </section>
     
-    <!-- Link to external JavaScript -->
+    <!-- Help modal to display user instructions -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span> <!-- Close button for the modal -->
+            <h2>IBPE Tokenizer User Manual</h2>
+            
+            <!-- Help content and instructions -->
+            <h3>Overview</h3>
+            <p>The IBPE Tokenizer is a web-based tool designed for text tokenization. It allows users to enter or upload text files, tokenize the input, and download the tokenized results. This guide provides step-by-step instructions on how to use each feature of the tool.</p>
+            
+            <!-- Detailed feature explanations -->
+            <h3>Features and Instructions</h3>
+            <ol>
+                <li><strong>Enter Text to Tokenize:</strong>
+                    <ul>
+                        <li>In the "Enter text to tokenize" box, you can type or paste the text you wish to tokenize. There is no character limit.</li>
+                    </ul>
+                </li>
+                <li><strong>Upload Text File:</strong>
+                    <ul>
+                        <li>Click the "Upload Text File" button to upload a .txt file. Ensure the file contains only text data, as other formats may not be supported.</li>
+                    </ul>
+                </li>
+                <li><strong>Tokenize Text:</strong>
+                    <ul>
+                        <li>Click the "Tokenize" button to tokenize the entered or uploaded text. The tool will display tokens, character count, and the tokenized text.</li>
+                    </ul>
+                </li>
+                <li><strong>Download Tokenized Text:</strong>
+                    <ul>
+                        <li>Click the "Download" button to download the tokenized text as a .txt file.</li>
+                    </ul>
+                </li>
+                <li><strong>Remove File:</strong>
+                    <ul>
+                        <li>Click the "Remove File" button to remove the uploaded file from the interface.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <!-- Additional tips and troubleshooting -->
+            <h3>Tips for Effective Use:</h3>
+            <ul>
+                <li>Avoid Special Characters: The tokenizer may not handle special symbols well. Use clean, readable text.</li>
+            </ul>
+            <h3>Troubleshooting:</h3>
+            <ul>
+                <li>File Upload Issues: Ensure the file is in .txt format. Other file types may cause errors.</li>
+            </ul>
+
+            <!-- Contact information -->
+            <p>For further assistance or to report any issues, please contact the support team at <a href="mailto:msizingema300@gmail.com">msizingema300@gmail.com</a>.</p>
+        </div>
+    </div>
+    
+    <!-- Link to external JavaScript for interactivity -->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
