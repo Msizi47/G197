@@ -105,7 +105,7 @@ document.getElementById('download-btn').addEventListener('click', function() {
     document.body.removeChild(a);  // Remove the temporary link
     URL.revokeObjectURL(url);  // Clean up the URL
 
-    const statusMessage = document.getElementById('status-message');
+    const statusMessage = document.getElementById('status-message');   // messaging part
     statusMessage.textContent = "Tokenized text downloaded successfully.";
     statusMessage.style.color = "green";
 });
