@@ -1,33 +1,15 @@
-// Handle the change of tokenizer option (Default, Train, Saved)
-document.querySelectorAll('input[name="tokenizer"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        const selected = this.value;
-        const optionsSection = document.getElementById('options');
-        const mainInterface = document.getElementById('main-interface');
-        const trainingInterface = document.getElementById('training-interface');
-        
-        if (selected === 'train') {
-            optionsSection.style.display = 'none';  // Hide the options section
-            mainInterface.style.display = 'none';   // Hide the main interface
-            trainingInterface.style.display = 'block';  // Show the training interface
-        } else {
-            optionsSection.style.display = 'block'; // Show the options section
-            mainInterface.style.display = 'block';  // Show the main interface
-            trainingInterface.style.display = 'none';  // Hide the training interface
-        }
-    });
-});
+// Handle file upload and display success message
+document.getElementById('upload-text-file').addEventListener('change', function() {
+    const fileInput = document.getElementById('upload-text-file');
+    const statusMessage = document.getElementById('status-message');
 
-// Handle the 'Back' button click to return to the main interface
-document.getElementById('back-btn').addEventListener('click', function() {
-    const optionsSection = document.getElementById('options');
-    const mainInterface = document.getElementById('main-interface');
-    const trainingInterface = document.getElementById('training-interface');
-
-    trainingInterface.style.display = 'none';  // Hide the training interface
-    optionsSection.style.display = 'block';    // Show the options section
-    mainInterface.style.display = 'block';     // Show the main interface
-    document.querySelector('input[name="tokenizer"][value="default"]').checked = true; // Set "Default" radio button as selected
+    if (fileInput.files.length > 0) {
+        // Display the file name and success message
+        statusMessage.textContent = `File "${fileInput.files[0].name}" uploaded successfully.`;
+        statusMessage.style.color = "green";
+    } else {
+        statusMessage.textContent = "";
+    }
 });
 
 // Handle the 'Tokenize' button click
@@ -88,8 +70,42 @@ function tokenizeText(text) {
 // Handle the 'Remove File' button click to clear the uploaded text file
 document.getElementById('remove-file-btn').addEventListener('click', function() {
     const fileInput = document.getElementById('upload-text-file');
-    fileInput.value = '';  // Clear the file input
     const statusMessage = document.getElementById('status-message');
-    statusMessage.textContent = "File removed.";
-    statusMessage.style.color = "blue";
+
+    if (fileInput.value !== '') {
+        fileInput.value = '';  // Clear the file input
+        statusMessage.textContent = "File removed.";
+        statusMessage.style.color = "blue";
+    } else {
+        statusMessage.textContent = "No file to remove.";
+        statusMessage.style.color = "red";
+    }
+});
+
+// Handle the 'Download' button click to download the tokenized text as a file
+document.getElementById('download-btn').addEventListener('click', function() {
+    const outputText = document.getElementById('output-text').value;
+    if (!outputText) {
+        const statusMessage = document.getElementById('status-message');
+        statusMessage.textContent = "No tokenized text available to download.";
+        statusMessage.style.color = "red";
+        return;
+    }
+
+    // Create a Blob with the output text
+    const blob = new Blob([outputText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    // Create a temporary link element to trigger the download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tokenized_text.txt';  // Name of the downloaded file
+    document.body.appendChild(a);
+    a.click();  // Trigger the download
+    document.body.removeChild(a);  // Remove the temporary link
+    URL.revokeObjectURL(url);  // Clean up the URL
+
+    const statusMessage = document.getElementById('status-message');
+    statusMessage.textContent = "Tokenized text downloaded successfully.";
+    statusMessage.style.color = "green";
 });

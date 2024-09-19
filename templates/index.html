@@ -12,24 +12,6 @@
         <h1>IBPE Tokenizer</h1>
     </header>
     
-    <section id="options">
-        <h2>Choose tokenizer</h2>
-        <label>
-            <input type="radio" name="tokenizer" value="default" checked> Default
-        </label>
-        <label>
-            <input type="radio" name="tokenizer" value="train"> Train
-        </label>
-        <label>
-            <input type="radio" name="tokenizer" value="saved"> Saved
-        </label>
-        <select id="saved-options">
-            <option value="tokenize1">Tokenize 1</option>
-            <option value="tokenize2">Tokenize 2</option>
-            <option value="tokenize3">Tokenize 3</option>
-        </select>
-    </section>
-    
     <section id="main-interface">
         <h3>Enter text to tokenize</h3>
         <textarea id="input-text" maxlength="200" placeholder="Enter text here..."></textarea>
@@ -46,19 +28,6 @@
         <h3>Output</h3>
         <textarea id="output-text" readonly></textarea>
         <p id="status-message"></p> <!-- Message area for success/error -->
-    </section>
-    
-    <section id="training-interface" style="display: none;">
-        <h2>Training</h2>
-        <label for="upload-corpus" class="upload-label">
-            <input type="file" id="upload-corpus" accept=".txt">
-            Upload training corpus
-        </label>
-        <div id="training-actions">
-            <button id="train-btn">Train</button>
-            <button id="save-btn">Save</button>
-            <button id="back-btn">Back</button>
-        </div>
     </section>
     
     <!-- Link to external JavaScript -->
