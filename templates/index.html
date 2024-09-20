@@ -4,50 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IBPE Tokenizer</title>
-    <!-- Link to external CSS for styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <!-- Header section with title -->
     <header>
         <h1>IBPE Tokenizer</h1>
     </header>
-    
-    <!-- Main interface section for text input and actions -->
+
     <section id="main-interface">
         <h3>Enter text to tokenize</h3>
-        <!-- Textarea for user input; no maxlength, allowing unlimited input -->
         <textarea id="input-text" placeholder="Enter text here..."></textarea>
 
-        <!-- Action buttons: tokenize, download, upload, remove file, and help -->
         <div id="actions">
-            <button id="tokenize-btn">Tokenize</button> <!-- Tokenize the input text -->
-            <button id="download-btn">Download</button> <!-- Download the tokenized text -->
-            <label for="upload-text-file" class="upload-label"> <!-- Upload a text file -->
+            <button id="tokenize-btn">Tokenize</button>
+            <button id="download-btn">Download</button>
+            <label for="upload-text-file" class="upload-label">
                 Upload Text File
                 <input type="file" id="upload-text-file" accept=".txt">
             </label>
-            <button id="remove-file-btn">Remove File</button> <!-- Remove uploaded file -->
-            <button id="help-btn">Help</button> <!-- Display help modal -->
+            <button id="remove-file-btn">Remove File</button>
+            <button id="help-btn">Help</button>
         </div>
 
-        <!-- Output section to display tokenized text -->
         <h3>Output</h3>
-        <textarea id="output-text" readonly></textarea> <!-- Read-only output area -->
-        <p id="status-message"></p> <!-- Message area for success/error notifications -->
+        <textarea id="output-text" readonly></textarea>
+        <p id="status-message"></p>
+        <p id="success-message" style="color: green; display: none;"></p>
+        <p id="download-message" style="color: blue; display: none;"></p>
+
+        <div id="token-info">
+            <p id="token-count"></p>
+            <p id="char-count"></p>
+            <p id="avg-tokens-per-word"></p>
+            <p id="unique-token-count"></p>
+            <p id="tokenized-text"></p>
+        </div>
     </section>
-    
-    <!-- Help modal to display user instructions -->
+
+    <!-- Help modal -->
     <div id="help-modal" class="modal">
         <div class="modal-content">
-            <span class="close-btn">&times;</span> <!-- Close button for the modal -->
+            <span class="close-btn">&times;</span>
             <h2>IBPE Tokenizer User Manual</h2>
-            
-            <!-- Help content and instructions -->
             <h3>Overview</h3>
             <p>The IBPE Tokenizer is a web-based tool designed for text tokenization. It allows users to enter or upload text files, tokenize the input, and download the tokenized results. This guide provides step-by-step instructions on how to use each feature of the tool.</p>
-            
-            <!-- Detailed feature explanations -->
             <h3>Features and Instructions</h3>
             <ol>
                 <li><strong>Enter Text to Tokenize:</strong>
@@ -76,8 +76,6 @@
                     </ul>
                 </li>
             </ol>
-
-            <!-- Additional tips and troubleshooting -->
             <h3>Tips for Effective Use:</h3>
             <ul>
                 <li>Avoid Special Characters: The tokenizer may not handle special symbols well. Use clean, readable text.</li>
@@ -86,13 +84,161 @@
             <ul>
                 <li>File Upload Issues: Ensure the file is in .txt format. Other file types may cause errors.</li>
             </ul>
-
-            <!-- Contact information -->
             <p>For further assistance or to report any issues, please contact the support team at <a href="mailto:msizingema300@gmail.com">msizingema300@gmail.com</a>.</p>
         </div>
     </div>
-    
-    <!-- Link to external JavaScript for interactivity -->
+
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Handle file upload and display a success message
+        document.getElementById('upload-text-file').addEventListener('change', function () {
+            const fileInput = document.getElementById('upload-text-file');
+            const statusMessage = document.getElementById('status-message');
+
+            if (fileInput.files.length > 0) {
+                statusMessage.textContent = 'File uploaded successfully.';
+                statusMessage.style.color = 'green';
+            } else {
+                statusMessage.textContent = '';
+            }
+        });
+
+        // Handle Tokenize button click
+        document.getElementById('tokenize-btn').addEventListener('click', function () {
+            const inputText = document.getElementById('input-text').value;
+            const statusMessage = document.getElementById('status-message');
+            const successMessage = document.getElementById('success-message');
+
+            // Clear previous messages
+            statusMessage.textContent = '';
+            successMessage.style.display = 'none';
+
+            if (!inputText && document.getElementById('upload-text-file').files.length === 0) {
+                statusMessage.textContent = 'Please enter text or upload a file to tokenize.';
+                statusMessage.style.color = 'red';
+                return;
+            }
+
+            const fileInput = document.getElementById('upload-text-file');
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const fileContent = event.target.result;
+                    tokenizeText(fileContent);
+                };
+                reader.readAsText(file);
+            } else {
+                tokenizeText(inputText);
+            }
+        });
+
+        // Function to send text for tokenization to the Flask backend
+        function tokenizeText(text) {
+            fetch('/tokenize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const output = `Tokens: ${data.num_tokens}
+Characters: ${data.num_chars}
+Avg tokens per word: ${data.avg_tokens_per_word}
+Unique tokens: ${data.num_unique_tokens}
+Tokenized Text: ${data.tokenized_text}`;
+
+                document.getElementById('output-text').value = output.trim(); // Remove leading/trailing whitespace
+                
+                // Display success message
+                const successMessage = document.getElementById('success-message');
+                successMessage.textContent = 'Text has been tokenized successfully!';
+                successMessage.style.display = 'block';
+
+                // Hide success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            })
+            .catch(error => {
+                const statusMessage = document.getElementById('status-message');
+                statusMessage.textContent = 'An error occurred during tokenization.';
+                statusMessage.style.color = 'red';
+            });
+        }
+
+        // Download the content of the output box
+        document.getElementById('download-btn').addEventListener('click', function () {
+            const outputText = document.getElementById('output-text').value;
+            const downloadMessage = document.getElementById('download-message');
+
+            if (outputText) {
+                const downloadBtn = this;
+                downloadBtn.disabled = true;
+
+                const blob = new Blob([outputText], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'tokenization_output.txt';
+                document.body.appendChild(a); // Append to body for Firefox compatibility
+                a.click();
+                document.body.removeChild(a); // Remove from body
+                URL.revokeObjectURL(url);  // Clean up the URL
+
+                // Show download message
+                downloadMessage.textContent = 'Download initiated successfully!';
+                downloadMessage.style.display = 'block';
+
+                // Hide download message after 3 seconds
+                setTimeout(() => {
+                    downloadMessage.style.display = 'none';
+                }, 3000);
+
+                // Re-enable the download button after a short delay
+                setTimeout(() => {
+                    downloadBtn.disabled = false;
+                }, 1000);
+            } else {
+                const statusMessage = document.getElementById('status-message');
+                statusMessage.textContent = 'No output available for download.';
+                statusMessage.style.color = 'red';
+            }
+        });
+
+        // Handle the 'Remove File' button click to clear the uploaded text file
+        document.getElementById('remove-file-btn').addEventListener('click', function () {
+            const fileInput = document.getElementById('upload-text-file');
+            const statusMessage = document.getElementById('status-message');
+
+            if (fileInput.value !== '') {
+                fileInput.value = '';
+                statusMessage.textContent = 'File removed.';
+                statusMessage.style.color = 'blue';
+            } else {
+                statusMessage.textContent = 'No file to remove.';
+                statusMessage.style.color = 'red';
+            }
+        });
+
+        // Handle Help button click to show the help modal
+        document.getElementById('help-btn').addEventListener('click', function () {
+            document.getElementById('help-modal').style.display = 'block';
+        });
+
+        // Handle the close button click to hide the help modal
+        document.querySelector('.close-btn').addEventListener('click', function () {
+            document.getElementById('help-modal').style.display = 'none';
+        });
+
+        // Handle clicks outside of the modal to close it
+        window.addEventListener('click', function (event) {
+            if (event.target == document.getElementById('help-modal')) {
+                document.getElementById('help-modal').style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

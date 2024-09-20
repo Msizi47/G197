@@ -1,137 +1,108 @@
-/* General page styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
+    font-family: Arial, sans-serif; /* Font style */
+    margin: 0;                     /* No margin */
+    padding: 20px;                 /* Padding */
+    background-color: #f4f4f4;     /* Background color */
 }
 
 header {
-    text-align: center;
-    margin-bottom: 20px;
+    text-align: center;            /* Center header */
+    margin-bottom: 20px;          /* Space below */
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 36px;               /* Title size */
 }
 
-/* Main content container */
 #main-interface {
-    max-width: 650px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 650px;              /* Max width */
+    margin: 0 auto;                /* Center */
+    background-color: #fff;        /* White background */
+    padding: 20px;                 /* Padding */
+    border-radius: 5px;            /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow */
 }
 
 h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
+    font-size: 24px;               /* Subheading size */
+    margin-bottom: 15px;           /* Space below */
 }
 
-/* Text area styling */
 textarea {
-    width: 97%;
-    height: 150px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    resize: none;
+    width: 97%;                    /* Width */
+    height: 150px;                 /* Height */
+    padding: 10px;                 /* Padding */
+    font-size: 16px;               /* Font size */
+    border-radius: 5px;            /* Rounded corners */
+    border: 1px solid #ccc;        /* Border */
+    margin-bottom: 20px;           /* Space below */
+    resize: none;                  /* No resizing */
 }
 
-/* Action buttons layout */
 #actions {
-    display: flex;
-    gap: 10px;
+    display: flex;                 /* Flex layout */
+    gap: 10px;                    /* Space between */
 }
 
-/* General button styles */
 button {
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    background-color: #1E90FF;
-    color: white;
-    cursor: pointer;
-    height: 46px;
+    padding: 10px 15px;           /* Button padding */
+    font-size: 16px;               /* Font size */
+    border-radius: 5px;            /* Rounded corners */
+    border: none;                  /* No border */
+    background-color: #1E90FF;    /* Color */
+    color: white;                  /* Text color */
+    cursor: pointer;               /* Pointer cursor */
+    height: 46px;                  /* Height */
 }
 
 button:hover {
-    background-color: #1C86EE;
+    background-color: #1C86EE;    /* Hover color */
 }
 
-/* Upload label styling */
 .upload-label {
-    display: inline-block;
-    background-color: #1E90FF;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    height: 26px;
-    line-height: 26px;
+    background-color: #1E90FF;    /* Color */
+    color: white;                  /* Text color */
+    padding: 10px 15px;           /* Padding */
+    border-radius: 5px;            /* Rounded corners */
+    cursor: pointer;               /* Pointer cursor */
 }
 
 .upload-label input {
-    display: none;
+    display: none;                 /* Hide input */
 }
 
-/* Status message styling */
 #status-message {
-    margin-top: 15px;
-    font-size: 16px;
+    margin-top: 15px;             /* Space above */
+    font-size: 16px;               /* Font size */
 }
 
-/* Modal window styles */
+#token-info p {
+    font-size: 18px;               /* Size */
+    margin: 10px 0;                /* Vertical margin */
+}
+
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    display: none;                 /* Hidden */
+    position: fixed;               /* Fixed position */
+    z-index: 1000;                /* On top */
+    left: 0;                       /* Align left */
+    top: 0;                        /* Align top */
+    width: 100%;                   /* Full width */
+    height: 100%;                  /* Full height */
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay */
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 0 auto; /* Center horizontally */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 900px;
-    position: absolute; /* Position it at the top */
-    top: 10px; /* Distance from the top */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Adjust for horizontal centering */
-    max-height: 80vh; /* Maximum height for scrolling */
-    overflow-y: auto; /* Enable vertical scrolling */
+    background-color: #fefefe;     /* Background */
+    margin: auto;                  /* Center */
+    padding: 20px;                 /* Padding */
+    width: 80%;                    /* Width */
+    max-height: 80vh;              /* Max height */
+    overflow-y: auto;              /* Scroll if needed */
 }
 
-/* Modal close button */
 .close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close-btn:hover {
-    color: black;
-    cursor: pointer;
-}
-
-/* Help button specific styles */
-#actions button#help-btn {
-    background-color: #4CAF50;
-    color: white;
-}
-
-#actions button#help-btn:hover {
-    background-color: #45a049;
+    float: right;                  /* Align right */
+    font-size: 28px;               /* Size */
+    cursor: pointer;               /* Pointer cursor */
 }

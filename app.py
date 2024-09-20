@@ -1,39 +1,45 @@
 from flask import Flask, render_template, request, jsonify
 import tiktoken
+from collections import Counter
 
-# Create a new Flask application instance
+# Create a Flask application instance
 app = Flask(__name__)
 
-# Initialize the tokenizer with a specific encoding
-# "cl100k_base" is an example encoding; you should use an encoding that matches your model's requirements
+# Initialize the tokenizer with the specified encoding
 enc = tiktoken.get_encoding("cl100k_base")
 
-# Define the route for the home page
 @app.route('/')
 def index():
-    # Render and return the 'index.html' template
+    # Render the main index page
     return render_template('index.html')
 
-# Define the route for the tokenization process
 @app.route('/tokenize', methods=['POST'])
 def tokenize():
-    # Get the input text from the JSON request body
-    text = request.json.get('text', '')  # Default to an empty string if 'text' is not found
-
-    # Tokenize the input text using the initialized tokenizer
-    tokens = enc.encode(text)  # Convert the text into tokens
+    # Get the text input from the request
+    text = request.json.get('text', '')
+    
+    # Tokenization process: encode the text into tokens
+    tokens = enc.encode(text)
     num_tokens = len(tokens)  # Count the number of tokens
-    num_chars = len(text)  # Count the number of characters in the input text
-    tokenized_text = enc.decode(tokens)  # Convert tokens back to text
+    num_chars = len(text)     # Count the number of characters
+    
+    # Calculate additional statistics
+    words = text.split()  # Split text into words
+    avg_tokens_per_word = num_tokens / len(words) if len(words) > 0 else 0  # Average tokens per word
+    unique_tokens = len(set(tokens))  # Count unique tokens
+    
+    # Decode the tokens back into text for output
+    tokenized_text = enc.decode(tokens)
 
-    # Return the tokenization results as a JSON response
+    # Return a JSON response with tokenization results
     return jsonify({
-        'num_tokens': num_tokens,  # Number of tokens in the text
-        'num_chars': num_chars,    # Number of characters in the original text
-        'tokenized_text': tokenized_text  # The tokenized text
+        'num_tokens': num_tokens,
+        'num_chars': num_chars,
+        'avg_tokens_per_word': avg_tokens_per_word,
+        'num_unique_tokens': unique_tokens,
+        'tokenized_text': tokenized_text
     })
 
-# Ensure this script runs only if it's executed directly
 if __name__ == '__main__':
-    # Run the Flask application in debug mode
+    # Run the Flask app in debug mode
     app.run(debug=True)
